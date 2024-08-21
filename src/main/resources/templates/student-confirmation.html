@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>student-confirmation</title>
+</head>
+<body>
+
+    Student Name: <p th:text="${student.firstName}+' '+${student.lastName}" />
+    Country: <p th:text="${student.country}" />
+</body>
+</html>
