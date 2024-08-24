@@ -1,7 +1,11 @@
 package com.java.application.java_service;
 
 import com.java.application.java_service.common.TransactionFeeEnum;
+import com.java.application.java_service.dao.entity.BookingMaster;
+import com.java.application.java_service.dao.entity.FlightItinerary;
 import com.java.application.java_service.dao.entity.TransactionFeeDetails;
+import com.java.application.java_service.dao.repository.BookingMasterDao;
+import com.java.application.java_service.dao.repository.FlightItineraryDao;
 import com.java.application.java_service.dao.repository.TransactionFeeDao;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -20,15 +24,17 @@ public class JavaServiceApplication {
 
     public static void main(String[] args) {
 
-//        SpringApplication.run(JavaServiceApplication.class, args);
-        List<String> name = new ArrayList<String>();
+        SpringApplication.run(JavaServiceApplication.class, args);
+//        List<String> name = new ArrayList<String>();
+//
+//        name.add("saravanan");
+//        name.add("vignesh");
+//        name.add("hamantha");
+//        name.add(1,"ram");
+//        name.remove("saravanan");
+//        System.out.println(name.get(2));
 
-        name.add("saravanan");
-        name.add("vignesh");
-        name.add("hamantha");
-        name.add(1,"ram");
-        name.remove("saravanan");
-        System.out.println(name.get(2));
+
     }
 
     public static final Integer BookingMasterId = 1;
@@ -43,8 +49,8 @@ public class JavaServiceApplication {
     private int ids = 10;
     private int id;
     @Bean
-//    public CommandLineRunner commandLineRunner(TransactionFeeDao transactionFeeDao) {
-//        return runner -> {
+    public CommandLineRunner commandLineRunner(BookingMasterDao bookingMasterDao, FlightItineraryDao flightItineraryDao) {
+        return runner -> {
 //            createTransactionFee(transactionFeeDao);
 
 //			createMultipleTransaction(transactionFeeDao);
@@ -60,83 +66,98 @@ public class JavaServiceApplication {
 //           System.out.println("int : "+ids);
 //            System.out.println("integer : "+Integer.parseUnsignedInt(amount));
 //
-//        };
+            System.out.println("start");
+//            getBookingMasterData(bookingMasterDao);
+            getFlightItineraryData(flightItineraryDao);
+
+        };
 
 
+    }
+
+    private void getFlightItineraryData(FlightItineraryDao flightItineraryDao) {
+
+        FlightItinerary flightItinerary = flightItineraryDao.findById(12);
+
+        System.out.println(flightItinerary.getPnr());
+    }
+
+    private void getBookingMasterData(BookingMasterDao bookingMasterDao) {
+        BookingMaster bookingMaster = bookingMasterDao.findById(1);
+        System.out.println(bookingMaster);
+    }
+
+//    private void deleteFeeDataById(TransactionFeeDao transactionFeeDao) {
+//
+////		TransactionFeeDetails transactionFeeDetails = transactionFeeDao.findById(3);
+////
+////		System.out.println("selected Data : "+ transactionFeeDetails);
+////
+////		transactionFeeDao.deleteById(transactionFeeDetails);
+//
+//        transactionFeeDao.deleteById(3);
+//
+//    }
+
+//    private void updateDataByFeeId(TransactionFeeDao transactionFeeDao) {
+//
+//        TransactionFeeDetails transactionFeeDetails = transactionFeeDao.findById(1);
+//
+//        System.out.println("selected Data: " + transactionFeeDetails);
+//        transactionFeeDetails.setFeeName("test Update");
+//
+//        transactionFeeDao.updateById(transactionFeeDetails);
+//
+//        System.out.println("updated data: " + transactionFeeDetails);
+//
+//    }
+
+//    private void selectByFeeId(TransactionFeeDao transactionFeeDao) {
+//
+//        List<TransactionFeeDetails> theTransactionFeeDetails = transactionFeeDao.findByFeeId(1);
+//
+//        for (TransactionFeeDetails tempData : theTransactionFeeDetails) {
+//            System.out.println(tempData);
+//        }
 //    }
 
 
-    private void deleteFeeDataById(TransactionFeeDao transactionFeeDao) {
-
-//		TransactionFeeDetails transactionFeeDetails = transactionFeeDao.findById(3);
+//    private void selectDataFromTable(TransactionFeeDao transactionFeeDao) {
 //
-//		System.out.println("selected Data : "+ transactionFeeDetails);
+//        List<TransactionFeeDetails> theTransactionFee = transactionFeeDao.findAll();
 //
-//		transactionFeeDao.deleteById(transactionFeeDetails);
+//        for (TransactionFeeDetails temFee : theTransactionFee) {
+//            System.out.println(temFee);
+//        }
+//    }
 
-        transactionFeeDao.deleteById(3);
+//    private static void getTransactionFeeData(Integer id) {
+//
+//    }
 
-    }
-
-    private void updateDataByFeeId(TransactionFeeDao transactionFeeDao) {
-
-        TransactionFeeDetails transactionFeeDetails = transactionFeeDao.findById(1);
-
-        System.out.println("selected Data: " + transactionFeeDetails);
-        transactionFeeDetails.setFeeName("test Update");
-
-        transactionFeeDao.updateById(transactionFeeDetails);
-
-        System.out.println("updated data: " + transactionFeeDetails);
-
-    }
-
-    private void selectByFeeId(TransactionFeeDao transactionFeeDao) {
-
-        List<TransactionFeeDetails> theTransactionFeeDetails = transactionFeeDao.findByFeeId(1);
-
-        for (TransactionFeeDetails tempData : theTransactionFeeDetails) {
-            System.out.println(tempData);
-        }
-    }
-
-
-    private void selectDataFromTable(TransactionFeeDao transactionFeeDao) {
-
-        List<TransactionFeeDetails> theTransactionFee = transactionFeeDao.findAll();
-
-        for (TransactionFeeDetails temFee : theTransactionFee) {
-            System.out.println(temFee);
-        }
-    }
-
-    private static void getTransactionFeeData(Integer id) {
-
-    }
-
-    private void createTransactionFee(TransactionFeeDao transactionFeeDao) {
-
-        System.out.println(VAR);
-        System.out.println("start saving .....");
-        TransactionFeeDetails transactionFeeDetails = new TransactionFeeDetails(JavaServiceApplication.BookingMasterId,
-                JavaServiceApplication.FeeId,
-                JavaServiceApplication.VAR,
-                JavaServiceApplication.feeName,
-                JavaServiceApplication.feeAmount,
-                JavaServiceApplication.createdAt,
-                JavaServiceApplication.updatedAt
-        );
-        transactionFeeDao.save(transactionFeeDetails);
-
-        System.out.println("saved ....." + transactionFeeDetails.getTransactionFeeId());
-
-        this.id = transactionFeeDetails.getTransactionFeeId();
-
-        TransactionFeeDetails transaction = transactionFeeDao.findById(this.id);
-
-        System.out.println(transactionFeeDao.findById(this.id));
-
-    }
+//    private void createTransactionFee(TransactionFeeDao transactionFeeDao) {
+//
+//        System.out.println(VAR);
+//        System.out.println("start saving .....");
+//        TransactionFeeDetails transactionFeeDetails = new TransactionFeeDetails(JavaServiceApplication.BookingMasterId,
+//                JavaServiceApplication.FeeId,
+//                JavaServiceApplication.VAR,
+//                JavaServiceApplication.feeName,
+//                JavaServiceApplication.feeAmount,
+//                JavaServiceApplication.createdAt,
+//                JavaServiceApplication.updatedAt
+//        );
+//        transactionFeeDao.save(transactionFeeDetails);
+//
+//        System.out.println("saved ....." + transactionFeeDetails.getTransactionFeeId());
+//
+//        this.id = transactionFeeDetails.getTransactionFeeId();
+//
+//        TransactionFeeDetails transaction = transactionFeeDao.findById(this.id);
+//
+//        System.out.println(transactionFeeDao.findById(this.id));
+//
+//    }
 
 
 //	private void createMultipleTransaction(TransactionFeeDao transactionFeeDao) {

@@ -8,16 +8,16 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="employee_id")
+    @Column(name = "employee_id")
     private Integer employeeId;
 
     @Column(name = "first_name")
     private String firstName;
 
-    @Column(name= "last_name")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name="email_id")
+    @Column(name = "email_id")
     private String emailId;
 
     public Employee() {
@@ -64,11 +64,6 @@ public class Employee {
     @Override
     public String toString() {
 
-        return "Employee :{ "+
-                " employee_id : " + employeeId+'\''+
-                " first_name : " + firstName+'\''+
-                " last_name : " + lastName +'\''+
-                " email_id : " + emailId+'\''
-                ;
+        return "Employee :{ " + " employee_id : " + employeeId + '\'' + " first_name : " + firstName + '\'' + " last_name : " + lastName + '\'' + " email_id : " + emailId + '\'';
     }
 }
