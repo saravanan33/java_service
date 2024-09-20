@@ -7,6 +7,7 @@ import com.java.application.java_service.common.GeneralEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.List;
 
 @Getter
 @Setter
@@ -211,17 +212,14 @@ public class BookingMaster {
 
     @Column(name = "passport_required")
     @Enumerated(EnumType.STRING)
-
     private GeneralEnum passportRequired;
 
     @Column(name = "nationality_required")
     @Enumerated(EnumType.STRING)
-
     private GeneralEnum nationalityRequired;
 
     @Column(name = "tsa_issuing_country_required")
     @Enumerated(EnumType.STRING)
-
     private GeneralEnum tsaIssuingCountryRequired;
 
     @Column(name = "other_details")
@@ -240,9 +238,7 @@ public class BookingMaster {
     private Integer ticketedBy;
 
     @Column(name = "credit_debit_new_flow")
-    @Enumerated(EnumType.STRING)
-
-    private GeneralEnum creditDebitNewFlow;
+    private String creditDebitNewFlow;
 
     @Column(name = "administration_fee_details")
     private String administrationFeeDetails;
@@ -264,6 +260,9 @@ public class BookingMaster {
 
     @Column(name = "updated_at")
     private String updatedAt;
+
+    @OneToMany(mappedBy = "bookingMaster", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<FlightItinerary> flightItinerary;
 
     @Override
     public String toString() {

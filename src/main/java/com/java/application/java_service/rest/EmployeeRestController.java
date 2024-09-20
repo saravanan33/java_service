@@ -18,8 +18,8 @@ public class EmployeeRestController {
 
     public EmployeeRestController(EmployeeServiceDao theEmployeeDao) {
         employeeDao = theEmployeeDao;
-        employee = new Employee("saravanan", "viswa", "saravana@gmail.com");
-        System.out.println(employeeDao.save(employee));
+//        employee = new Employee("saravanan", "viswa", "saravana@gmail.com");
+//        System.out.println(employeeDao.save(employee));
     }
 
     @GetMapping("/list")

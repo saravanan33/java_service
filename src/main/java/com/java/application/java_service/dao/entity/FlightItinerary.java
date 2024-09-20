@@ -1,8 +1,12 @@
 package com.java.application.java_service.dao.entity;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 @Getter
 @Setter
@@ -15,7 +19,7 @@ public class FlightItinerary {
     @Column(name="flight_itinerary_id")
     private int flightItineraryId;
 
-    @Column(name="booking_master_id")
+    @Column(name="booking_master_id", insertable = false, updatable = false)
     private int bookingMasterId;
 
     @Column(name="content_source_id")
@@ -48,7 +52,8 @@ public class FlightItinerary {
     @Column(name="pcc")
     private String pcc;
 
-    @Column(name="fare_details")
+//    @JsonSubTypes.Type(FareDetails.class)
+    @Column(name="fare_details", columnDefinition = "TEXT")
     private String fareDetails;
 
     @Column(name="ssr_details")
@@ -77,6 +82,10 @@ public class FlightItinerary {
 
     @Column(name="updated_at")
     private String updatedAt;
+
+    @ManyToOne()
+    @JoinColumn(name="booking_master_id")
+    private BookingMaster bookingMaster;
 
     @Override
     public String toString() {

@@ -63,7 +63,11 @@ public class Employee {
 
     @Override
     public String toString() {
-
-        return "Employee :{ " + " employee_id : " + employeeId + '\'' + " first_name : " + firstName + '\'' + " last_name : " + lastName + '\'' + " email_id : " + emailId + '\'';
+        return "Employee{" +
+                "employeeId=" + employeeId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", emailId='" + emailId + '\'' +
+                '}';
     }
 }

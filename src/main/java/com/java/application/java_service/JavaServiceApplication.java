@@ -1,5 +1,6 @@
 package com.java.application.java_service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.java.application.java_service.common.TransactionFeeEnum;
 import com.java.application.java_service.dao.entity.BookingMaster;
 import com.java.application.java_service.dao.entity.FlightItinerary;
@@ -7,6 +8,8 @@ import com.java.application.java_service.dao.entity.TransactionFeeDetails;
 import com.java.application.java_service.dao.repository.BookingMasterDao;
 import com.java.application.java_service.dao.repository.FlightItineraryDao;
 import com.java.application.java_service.dao.repository.TransactionFeeDao;
+import com.java.application.java_service.dto.FareDetails;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,12 +22,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
+@Slf4j
+
 public class JavaServiceApplication {
 
 
     public static void main(String[] args) {
 
         SpringApplication.run(JavaServiceApplication.class, args);
+
+//        log.info("saravana log");
 //        List<String> name = new ArrayList<String>();
 //
 //        name.add("saravanan");
@@ -66,25 +73,56 @@ public class JavaServiceApplication {
 //           System.out.println("int : "+ids);
 //            System.out.println("integer : "+Integer.parseUnsignedInt(amount));
 //
-            System.out.println("start");
+//            System.out.println("start");
 //            getBookingMasterData(bookingMasterDao);
-            getFlightItineraryData(flightItineraryDao);
+//            getFlightItineraryData(flightItineraryDao);
 
+//            getBookingMasterIdBasedFlightItinerary(bookingMasterDao);
+
+
+            testThisMethod(bookingMasterDao);
         };
 
 
     }
 
-    private void getFlightItineraryData(FlightItineraryDao flightItineraryDao) {
+    public void testThisMethod(BookingMasterDao bookingMasterDao) {
 
-        FlightItinerary flightItinerary = flightItineraryDao.findById(12);
-
-        System.out.println(flightItinerary.getPnr());
+        bookingMasterDao.getLog();
     }
 
-    private void getBookingMasterData(BookingMasterDao bookingMasterDao) {
-        BookingMaster bookingMaster = bookingMasterDao.findById(1);
-        System.out.println(bookingMaster);
+    private void getBookingMasterIdBasedFlightItinerary(BookingMasterDao bookingMasterDao) {
+        int id = 44274;
+
+        List<FlightItinerary> flightItineraries = bookingMasterDao.findFlightItineraryByBookingMasterId(id);
+
+        System.out.println(flightItineraries);
+    }
+
+//    private void getFlightItineraryData(FlightItineraryDao flightItineraryDao) {
+//
+//        FlightItinerary flightItinerary = flightItineraryDao.findById(12);
+//
+//        System.out.println(flightItinerary.getPnr());
+//        System.out.println(flightItinerary.getPnr());
+//    }
+
+    private void getBookingMasterData(BookingMasterDao bookingMasterDao) throws JsonProcessingException {
+        BookingMaster bookingMaster = bookingMasterDao.findById(44274);
+        System.out.println("bookingMaster : " + bookingMaster);
+        System.out.println("flightItinery : " + bookingMaster.getFlightItinerary());
+
+        for(int i=0; i<bookingMaster.getFlightItinerary().size(); i++){
+
+            String json = bookingMaster
+                    .getFlightItinerary()
+                    .get(i)
+                    .getFareDetails();
+
+
+            System.out.println(
+                    );
+        }
     }
 
 //    private void deleteFeeDataById(TransactionFeeDao transactionFeeDao) {
