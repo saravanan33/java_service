@@ -8,6 +8,7 @@ import com.java.application.java_service.dao.entity.TransactionFeeDetails;
 import com.java.application.java_service.dao.repository.EmployeeDao;
 import com.java.application.java_service.dao.repository.TransactionFeeDao;
 import com.java.application.java_service.dto.State;
+import com.java.application.java_service.dto.Todos;
 import com.java.application.java_service.exception.StudentNotFoundException;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
@@ -141,5 +142,34 @@ public class CommonController {
 
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/todos")
+    public ResponseEntity<List<Todos>> getTodoLists() throws IOException, InterruptedException {
+
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create("https://jsonplaceholder.typicode.com/todos"))
+                .GET()
+                .header("Content-Type", "application/json")
+                .build();
+
+        HttpResponse<String> response = HttpClient.newHttpClient().send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        List<Todos> todos = objectMapper.readValue(response.body(), new TypeReference<List<Todos>>() {});
+
+//        System.out.println(response.body());
+        List<Todos> tempList = new ArrayList<Todos>();
+        for (Todos todos1: todos) {
+
+            if (!todos1.isCompleted()) {
+                tempList.add(todos1);
+            }
+        }
+
+        return new ResponseEntity<>(tempList, HttpStatus.OK);
+    }
+
 
 }

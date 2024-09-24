@@ -1,6 +1,8 @@
 package com.java.application.java_service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java.application.java_service.common.TransactionFeeEnum;
 import com.java.application.java_service.dao.entity.BookingMaster;
 import com.java.application.java_service.dao.entity.FlightItinerary;
@@ -9,6 +11,7 @@ import com.java.application.java_service.dao.repository.BookingMasterDao;
 import com.java.application.java_service.dao.repository.FlightItineraryDao;
 import com.java.application.java_service.dao.repository.TransactionFeeDao;
 import com.java.application.java_service.dto.FareDetails;
+import com.java.application.java_service.dto.State;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -19,7 +22,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 @Slf4j
@@ -59,28 +64,21 @@ public class JavaServiceApplication {
     public CommandLineRunner commandLineRunner(BookingMasterDao bookingMasterDao, FlightItineraryDao flightItineraryDao) {
         return runner -> {
 //            createTransactionFee(transactionFeeDao);
-
 //			createMultipleTransaction(transactionFeeDao);
-
 //			selectDataFromTable(transactionFeeDao);
-
 //			selectByFeeId(transactionFeeDao);
-
 //			updateDataByFeeId(transactionFeeDao);
-
 //			deleteFeeDataById(transactionFeeDao);
+//          System.out.println("int : "+ids);
+//          System.out.println("integer : "+Integer.parseUnsignedInt(amount));
+//          System.out.println("start");
+//          getBookingMasterData(bookingMasterDao);
+//          getFlightItineraryData(flightItineraryDao);
+          getBookingMasterIdBasedFlightItinerary(bookingMasterDao);
 
-//           System.out.println("int : "+ids);
-//            System.out.println("integer : "+Integer.parseUnsignedInt(amount));
-//
-//            System.out.println("start");
-//            getBookingMasterData(bookingMasterDao);
-//            getFlightItineraryData(flightItineraryDao);
-
-//            getBookingMasterIdBasedFlightItinerary(bookingMasterDao);
+//          testThisMethod(bookingMasterDao);
 
 
-            testThisMethod(bookingMasterDao);
         };
 
 
@@ -91,12 +89,31 @@ public class JavaServiceApplication {
         bookingMasterDao.getLog();
     }
 
-    private void getBookingMasterIdBasedFlightItinerary(BookingMasterDao bookingMasterDao) {
+    private void getBookingMasterIdBasedFlightItinerary(BookingMasterDao bookingMasterDao) throws JsonProcessingException {
         int id = 44274;
 
         List<FlightItinerary> flightItineraries = bookingMasterDao.findFlightItineraryByBookingMasterId(id);
 
         System.out.println(flightItineraries);
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+//        List<State> state = objectMapper.readValue(response.body(), State.class);
+        List<FareDetails> fareDetails = new ArrayList<FareDetails>();
+
+        for (FlightItinerary flightItinerary : flightItineraries) {
+            fareDetails.add( objectMapper.readValue(flightItinerary.getFareDetails(), new TypeReference<>() {})) ;
+//            Map<Object, Object> fareObj = new HashMap<Object, Object>();
+//            System.out.println(fareDetails.totalFareDetails.currencyCode);
+//            tempFare.add(fareDetails);
+        }
+
+        for (int i = 0; i < fareDetails.size(); i++) {
+            System.out.println(fareDetails.get(i).totalFareDetails.getTotalFare());
+
+        }
+
+
     }
 
 //    private void getFlightItineraryData(FlightItineraryDao flightItineraryDao) {
